@@ -63,10 +63,11 @@
                 <td scope="row"><%= list[i]._id %> </td>
                 <td ><%= list[i].namee %> </td>
                 <td ><%= list[i].contentt %> </td>
+                <td ><%= list[i].datee %> </td>
                 <td ><img src="<%= list[i].linkk %>"> </td>
                 <td ><a class="btn-primary" style="weight: 50px; height: 50px" href="/del/<%= list[i]._id %>">Xóa</a> <a class="btn-primary" href="/update/<%= list[i]._id %>">Sửa</a></td>
         </tr>
-        <% } %>s
+        <% } %>
         </tbody>
     </table>
 

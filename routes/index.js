@@ -43,13 +43,23 @@ var thongTin = {
 })
 router.get('/product', function(req, res, next) {
 
-        dbo.collection("huyas").find({}).toArray(function(err, result) {
+        dbo.collection("wallpp").find({}).toArray(function(err, result) {
             if (err) throw err;
             console.log(result);
             listproduct = result
 
         });
     res.render('product', { title: 'Product', list:listproduct });
+})
+router.get('/', function(req, res, next) {
+
+    dbo.collection("wallpp").find({}).toArray(function(err, result) {
+        if (err) throw err;
+        console.log(result);
+        listproduct = result
+
+    });
+    res.render('index', { title: 'Product', list:listproduct });
 })
 router.get('/news', function(req, res, next) {
   res.render('news', { title: 'News' });
@@ -95,9 +105,10 @@ router.post('/update', function(req, res, next) {
     var namee = req.body.namee
     var contentt = req.body.contentt
     var linkk = req.body.linkk
+    var datee = req.body.datee
     const ObjectId = require('mongodb').ObjectID;
-    var myobj ={$set: {namee:namee,contentt:contentt,linkk:linkk}}
-    dbo.collection("huyas").updateOne({_id: ObjectId(req.body.idd)}, myobj, function(err,ress) {
+    var myobj ={$set: {namee:namee,contentt:contentt,linkk:linkk,datee:datee}}
+    dbo.collection("wallpp").updateOne({_id: ObjectId(req.body.idd)}, myobj, function(err,ress) {
             if (err) throw err;
                 console.log("1 document updated");
                 res.redirect("/product")
@@ -106,16 +117,18 @@ router.post('/update', function(req, res, next) {
     var Pschema = new mongoose.Schema({
         namee :'string',
         contentt: 'string',
-       linkk: 'string'
+       linkk: 'string',
+        datee: 'string'
    })
-    var Product = mongoose.model('huya', Pschema);
+    var Product = mongoose.model('wallpp', Pschema);
 
    router.post('/addP',function (req,ress) {
        var namee = req.body.namee
        var contentt = req.body.contentt
        var linkk = req.body.linkk
-       var myobj = {namee:namee,contentt:contentt,linkk:linkk}
-       dbo.collection("huyas").insertOne(myobj, function(err, res) {
+       var datee = req.body.datee
+       var myobj = {namee:namee,contentt:contentt,linkk:linkk,datee:datee}
+       dbo.collection("wallpp").insertOne(myobj, function(err, res) {
            if (err){
                throw err
                ress.redirect("/product")
@@ -125,7 +138,7 @@ router.post('/update', function(req, res, next) {
        })
        })
 router.get("/update/:id",function (req,res){
-    dbo.collection("huyas").findOne({},function (err,char){
+    dbo.collection("wallpp").findOne({},function (err,char){
         if(err) throw  err
         else {
             console.log(req.params.id);
@@ -137,7 +150,7 @@ router.get("/del/:id", function (req, res) {
     const ObjectId = require('mongodb').ObjectID;
     var id =req.params.id
     console.log(id)
-    dbo.collection("huyas").deleteOne({_id: ObjectId(req.params.id)}, function (error,ress) {
+    dbo.collection("wallpp").deleteOne({_id: ObjectId(req.params.id)}, function (error,ress) {
         if (error) {
             console.log(error)
         }else {
@@ -177,4 +190,10 @@ router.get('/abc', function(req, res, next) {
   })
 })
 
+
+router.get('/getAll',function (req,res){
+    Product.find({},function (err, data){
+        res.render(data)
+    })
+})
 module.exports = router;
