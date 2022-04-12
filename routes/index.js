@@ -13,34 +13,6 @@ MongoClient.connect(ddb, function(err, db) {
     if (err) throw err;
     dbo = db.db("myFirstDatabase");
 });
-router.get('/', function(req, res, next) {
- var danhsach = [
-    {name : 'Quang Huy' , sdt:'0337960001'},
-    {name : 'Quang Huy' , sdt:'0337960001'},
-    {name : 'Quang Huy' , sdt:'0337960001'},
-    {name : 'Quang Huy' , sdt:'0337960001'}
- ]
-    var array = [4,5,656,7,766,75,6765,7]
-
-var thongTin = {
-     name :' Quang Huy', sdt: '0337960001',danhsach : [
-        {name : 'Quang Huy' , sdt:'0337960001'},
-        {name : 'Quang Huy' , sdt:'0337960001'},
-        {name : 'Quang Huy' , sdt:'0337960001'},
-        {name : 'Quang Huy' , sdt:'0337960001'}
-    ]
-}
-
-
-
-
-  res.render('index', { title: 'Home', danhsach : danhsach , array : array});
-
-
-
-
-
-})
 router.get('/product', function(req, res, next) {
 
         dbo.collection("wallpp").find({}).toArray(function(err, result) {
@@ -52,14 +24,13 @@ router.get('/product', function(req, res, next) {
     res.render('product', { title: 'Product', list:listproduct });
 })
 router.get('/', function(req, res, next) {
-
     dbo.collection("wallpp").find({}).toArray(function(err, result) {
         if (err) throw err;
         console.log(result);
         listproduct = result
 
     });
-    res.render('index', { title: 'Product', list:listproduct });
+    res.render('index', { title: 'Product', list: listproduct });
 })
 router.get('/news', function(req, res, next) {
   res.render('news', { title: 'News' });
@@ -193,7 +164,7 @@ router.get('/abc', function(req, res, next) {
 
 router.get('/getAll',function (req,res){
     Product.find({},function (err, data){
-        res.render(data)
+        res.json(data)
     })
 })
 module.exports = router;
